@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Script mangler</title>
+  <script src="mangler.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <form action="" method="GET" onsubmit="return false;">
+    <h2>Plain JavaScript</h2>
+    <textarea id="input"></textarea>
+    <h2>Mangled JavaScript</h2>
+    <textarea id="output"></textarea>
+    <button id="eval">eval()</button>
+  </form>
+
+  <script>
+    function $(id){ return document.getElementById(id) }
+    var addEvent = window.addEventListener?function(a,b,c){a.addEventListener(b,c,false)}:function(a,b,c){a.attachEvent('on'+b,c)};
+    function doIt(){$('output').value = mangle(this.value, 4);}
+    var i = $('input');
+
+    addEvent(i, 'change', doIt);
+    addEvent(i, 'keyup', doIt);
+    addEvent(i, 'paste', doIt);
+
+    addEvent($('eval'), 'click', function(){eval($('output').value)});
+  </script>
+</body>
+</html>
